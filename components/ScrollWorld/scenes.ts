@@ -25,19 +25,19 @@ export const scrollWorldConfig = {
     },
     {
       id: 'house', label: 'Дом', still: '/scroll/house.webp', clip: '/scroll/house.mp4',
-      scroll: 1.6, linger: 0.4, accent: '#3a5a4a', eyebrow: 'Дом «Вода»',
+      scroll: 2.0, linger: 0.45, accent: '#3a5a4a', eyebrow: 'Дом «Вода»',
       title: '362 м², два этажа.', body: 'Панорамное остекление, потолки до 4,7 м, террасы.',
       tags: ['Архитектура'],
     },
     {
       id: 'interior', label: 'Интерьер', still: '/scroll/interior.webp', clip: '/scroll/interior.mp4',
-      scroll: 1.6, linger: 0.45, accent: '#2d4a3e', eyebrow: 'Внутри',
+      scroll: 2.6, linger: 0.5, accent: '#2d4a3e', eyebrow: 'Внутри',
       title: 'Свет и простор.', body: 'Двусветная гостиная, камин, кухня-остров.',
       tags: ['Комфорт'],
     },
     {
       id: 'garden', label: 'Сад', still: '/scroll/garden.webp', clip: '/scroll/garden.mp4',
-      scroll: 1.4, linger: 0.3, accent: '#2d4a3e', eyebrow: 'Приватность',
+      scroll: 1.8, linger: 0.35, accent: '#2d4a3e', eyebrow: 'Приватность',
       title: 'Ваш собственный сад.', body: 'Терраса, BBQ-зона, фруктовые деревья, вид на воду.',
       tags: ['Отдых'],
       cta: {

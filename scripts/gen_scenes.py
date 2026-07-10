@@ -29,25 +29,28 @@ HOUSE_STYLE = (
     "gravel and paved paths. Every house shares this exact architectural language."
 )
 
-AERIAL = SEED / "aerial_1280.png"      # аэро-стилл АУЛ (gpt-image-2 держит плоские крыши)
-AERIAL_PROMPT = (
-    "Photoreal aerial drone view at golden hour of a premium modern Russian countryside "
-    "village. Rows of FLAT-ROOF cubic two-storey villas — white brick and warm vertical "
-    "timber-slat facades, large black-framed floor-to-ceiling windows, cantilevered "
-    "volumes, integrated carports with premium cars. Ornamental grass gardens, pine and "
-    "spruce trees, low stone fences, winding paved lanes, a central landscaped alley with "
-    "a pond and a small amphitheatre. Absolutely no pitched or gabled roofs — every roof "
-    "is flat. Crisp architectural visualization, warm cinematic light."
+AERIAL = SEED / "aerial_1280.png"      # аэро-стилл АУЛ (из реального плана посёлка)
+UMAP = SEED / "umap.jpg"               # реальный мастер-план (top-down) с сайта
+AERIAL_EDIT_PROMPT = (
+    "Redraw this settlement master plan as a photoreal angled aerial bird's-eye view "
+    "from a low drone at golden hour. Keep the exact same layout, streets, central alley, "
+    "pond and plots. The houses are modern minimalist FLAT-ROOF cubic villas: white brick "
+    "and warm vertical timber-slat facades, black-framed glazing, carports, ornamental "
+    "grass gardens, pine and spruce trees. No pitched or gabled roofs. Warm cinematic light."
 )
 
 
 def ensure_aerial():
-    """gpt-image-2 стилл посёлка (крыши плоские) — якорь для аэросцен."""
+    """Аэро-стилл посёлка из реального плана (umap) через gpt-image-2 edit."""
     if AERIAL.exists():
         return
-    from sora_lib import gen_image
-    raw = AERIAL.with_name("aerial_still.png")
-    gen_image(AERIAL_PROMPT, raw, size="1536x1024")
+    from sora_lib import edit_image
+    crop = SEED / "umap_crop.png"
+    if not crop.exists():
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(UMAP),
+                        "-vf", "crop=1507:848:0:250,scale=1280:720", str(crop)], check=True)
+    raw = AERIAL.with_name("aerial_plan.png")
+    edit_image(AERIAL_EDIT_PROMPT, crop, raw, size="1536x1024")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-vf",
                     "scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720",
                     str(AERIAL)], check=True)
@@ -69,9 +72,10 @@ def last_frame(mp4: Path, dst: Path):
 # (id, kind, prompt, seconds)
 SCENES = [
     ("forest", "t2v",
-     "Aerial drift over a serene birch-and-pine forest 25 km from the city, morning "
-     "mist between the trees, a winding road leading toward a premium gated countryside "
-     "village in the distance. Calm and inviting. End settling into a slow steady forward glide.", "8"),
+     "Aerial drift over a serene birch-and-pine forest 25 km from the city, morning mist "
+     "between the trees, a single winding empty road. Pure untouched nature, NO houses, no "
+     "buildings, no rooftops anywhere. Calm and inviting. End settling into a slow steady "
+     "forward glide along the road.", "8"),
     ("gate", "aerial",
      "Slow cinematic drone descent gliding forward over this modern flat-roof countryside "
      "village at golden hour, toward the central landscaped alley with the pond and "
@@ -87,21 +91,26 @@ SCENES = [
      "settling as it drifts toward the large glass entrance door.", "8"),
     ("interior", "chain",
      "Continue forward: the large floor-to-ceiling glass entrance door slides open and "
-     "the camera glides smoothly through the doorway into a bright double-height living "
-     "room: a designer boucle sofa, a stone-clad fireplace, wide oak floors, an open "
-     "kitchen with a large marble island, a minimalist dining area with statement pendant "
-     "lights, soft linen curtains. Keep gliding forward.", "8"),
+     "the camera glides slowly through the doorway into a bright double-height living "
+     "room, taking its time to explore: a designer boucle sofa, a stone-clad fireplace, "
+     "wide oak floors, an open kitchen with a large marble island, a minimalist dining "
+     "area with statement pendant lights, soft linen curtains, slow gentle parallax "
+     "revealing the space. Keep gliding slowly forward toward the far terrace doors.", "12"),
     ("garden", "chain",
-     "Continue gliding forward out onto the terrace and garden: a BBQ zone, fruit trees, "
-     "a calm water view, warm sunset light. End settling to a gentle stop.", "8"),
+     "Continue forward: the camera glides out through the open terrace doors, stepping "
+     "OUTSIDE onto a modern outdoor terrace, and reveals a stylish barbecue and grill "
+     "zone with built-in BBQ, lounge seating and a dining set, ornamental grasses, fruit "
+     "trees, a calm water view, warm sunset light. End settling to a gentle stop on the "
+     "terrace.", "12"),
 ]
 
 
 def main():
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 0
+    end = int(sys.argv[2]) if len(sys.argv) > 2 else len(SCENES) - 1  # inclusive
     RAW.mkdir(parents=True, exist_ok=True)
     for i, (sid, kind, prompt, secs) in enumerate(SCENES):
-        if i < start:
+        if i < start or i > end:
             continue
         full = f"{STYLE} {prompt}"
         ref = None

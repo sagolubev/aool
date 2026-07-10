@@ -108,3 +108,19 @@ def gen_image(prompt, dst: Path, size="1536x1024", model="gpt-image-2"):
         s2, raw2 = _req(d["url"])
         dst.write_bytes(raw2)
     return dst
+
+
+def edit_image(prompt, ref: Path, dst: Path, size="1536x1024", model="gpt-image-2"):
+    """gpt-image-2 image-edit: перерисовать по референс-картинке (multipart)."""
+    body, ct = _multipart({"model": model, "prompt": prompt, "size": size}, "image", ref)
+    s, raw = _req(f"{ENDPOINT}/openai/v1/images/edits?{V}", "POST", body, ct, timeout=240)
+    if s >= 400:
+        raise SystemExit(f"edit_image {s}: {raw.decode()[:400]}")
+    d = json.loads(raw)["data"][0]
+    import base64
+    if d.get("b64_json"):
+        dst.write_bytes(base64.b64decode(d["b64_json"]))
+    else:
+        s2, raw2 = _req(d["url"])
+        dst.write_bytes(raw2)
+    return dst
