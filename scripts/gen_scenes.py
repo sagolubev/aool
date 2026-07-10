@@ -29,6 +29,29 @@ HOUSE_STYLE = (
     "gravel and paved paths. Every house shares this exact architectural language."
 )
 
+AERIAL = SEED / "aerial_1280.png"      # аэро-стилл АУЛ (gpt-image-2 держит плоские крыши)
+AERIAL_PROMPT = (
+    "Photoreal aerial drone view at golden hour of a premium modern Russian countryside "
+    "village. Rows of FLAT-ROOF cubic two-storey villas — white brick and warm vertical "
+    "timber-slat facades, large black-framed floor-to-ceiling windows, cantilevered "
+    "volumes, integrated carports with premium cars. Ornamental grass gardens, pine and "
+    "spruce trees, low stone fences, winding paved lanes, a central landscaped alley with "
+    "a pond and a small amphitheatre. Absolutely no pitched or gabled roofs — every roof "
+    "is flat. Crisp architectural visualization, warm cinematic light."
+)
+
+
+def ensure_aerial():
+    """gpt-image-2 стилл посёлка (крыши плоские) — якорь для аэросцен."""
+    if AERIAL.exists():
+        return
+    from sora_lib import gen_image
+    raw = AERIAL.with_name("aerial_still.png")
+    gen_image(AERIAL_PROMPT, raw, size="1536x1024")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-vf",
+                    "scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720",
+                    str(AERIAL)], check=True)
+
 
 def last_frame(mp4: Path, dst: Path):
     out = subprocess.run(
@@ -49,15 +72,14 @@ SCENES = [
      "Aerial drift over a serene birch-and-pine forest 25 km from the city, morning "
      "mist between the trees, a winding road leading toward a premium gated countryside "
      "village in the distance. Calm and inviting. End settling into a slow steady forward glide.", "8"),
-    ("gate", "chain",
-     "Continue the same slow steady forward drift, arriving at the village entrance: a "
-     "stone stele 'Rodnaya Zemlya', a clean modern gatehouse, an avenue of trees "
-     f"beginning. {HOUSE_STYLE} Keep gliding forward, never pulling back.", "8"),
+    ("gate", "aerial",
+     "Slow cinematic drone descent gliding forward over this modern flat-roof countryside "
+     "village at golden hour, toward the central landscaped alley with the pond and "
+     "amphitheatre. Every roof stays flat. Keep gliding forward, never pulling back.", "8"),
     ("alley", "chain",
-     "Continue gliding forward down the central landscaped alley of the village, modern "
-     "flat-roof villas on both sides: manicured greenery, an amphitheatre, a calm pond, "
-     f"wide walking paths, 25 hectares of parkland. {HOUSE_STYLE} End settling forward "
-     "toward one modern house in the distance.", "8"),
+     "Continue gliding forward, lower now, along the central landscaped alley between "
+     "modern flat-roof villas, past the pond and the small amphitheatre, wide paved paths "
+     "and ornamental grasses. End settling forward toward one modern house.", "8"),
     ("house", "anchor",
      "Slow cinematic camera gliding down and forward toward this modern two-storey house "
      "by the water at golden hour, warm interior lights switching on, subtle parallax. "
@@ -85,6 +107,9 @@ def main():
         ref = None
         if kind == "anchor":
             ref = VODA
+        elif kind == "aerial":
+            ensure_aerial()
+            ref = AERIAL
         elif kind == "chain":
             ref = SEED / f"{sid}_seed.png"
             if not ref.exists():
