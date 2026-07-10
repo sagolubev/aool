@@ -14,3 +14,4 @@ spike/**/*.mp4
 # env
 .env*.local
 spike/__pycache__/
+scroll-world/
