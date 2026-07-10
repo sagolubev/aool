@@ -20,6 +20,15 @@ RAW = ROOT / "public" / "scroll" / "raw"
 SEED = ROOT / "spike" / "ref"          # сюда кладём seed-кадры
 VODA = SEED / "voda_1280.png"          # реальный рендер дома (уже скачан в спайке)
 
+# точное описание архитектуры АУЛ (по реальным рендерам с сайта)
+HOUSE_STYLE = (
+    "The houses are modern minimalist flat-roof cubic villas: white brick and warm "
+    "vertical timber-slat facades, large floor-to-ceiling windows with black frames, "
+    "cantilevered volumes, integrated carports with premium cars, ornamental grass "
+    "gardens, pine and spruce trees, low stone-and-metal fences with house numbers, "
+    "gravel and paved paths. Every house shares this exact architectural language."
+)
+
 
 def last_frame(mp4: Path, dst: Path):
     out = subprocess.run(
@@ -43,21 +52,23 @@ SCENES = [
     ("gate", "chain",
      "Continue the same slow steady forward drift, arriving at the village entrance: a "
      "stone stele 'Rodnaya Zemlya', a clean modern gatehouse, an avenue of trees "
-     "beginning. Keep gliding forward, never pulling back.", "8"),
+     f"beginning. {HOUSE_STYLE} Keep gliding forward, never pulling back.", "8"),
     ("alley", "chain",
-     "Continue gliding forward down the central landscaped alley of the village: "
-     "manicured greenery, an amphitheatre, a calm pond, wide walking paths, 25 hectares "
-     "of parkland. End settling forward toward a modern house in the distance.", "8"),
+     "Continue gliding forward down the central landscaped alley of the village, modern "
+     "flat-roof villas on both sides: manicured greenery, an amphitheatre, a calm pond, "
+     f"wide walking paths, 25 hectares of parkland. {HOUSE_STYLE} End settling forward "
+     "toward one modern house in the distance.", "8"),
     ("house", "anchor",
      "Slow cinematic camera gliding down and forward toward this modern two-storey house "
      "by the water at golden hour, warm interior lights switching on, subtle parallax. "
      "Preserve the exact architecture, glazing and materials of the reference. End "
-     "settling as it drifts toward the floor-to-ceiling glass facade.", "8"),
+     "settling as it drifts toward the large glass entrance door.", "8"),
     ("interior", "chain",
-     "Continue forward, passing seamlessly through the floor-to-ceiling glass into a "
-     "bright double-height living room: a designer boucle sofa, a stone-clad fireplace, "
-     "wide oak floors, an open kitchen with a large marble island, a minimalist dining "
-     "area with statement pendant lights, soft linen curtains. Keep gliding forward.", "8"),
+     "Continue forward: the large floor-to-ceiling glass entrance door slides open and "
+     "the camera glides smoothly through the doorway into a bright double-height living "
+     "room: a designer boucle sofa, a stone-clad fireplace, wide oak floors, an open "
+     "kitchen with a large marble island, a minimalist dining area with statement pendant "
+     "lights, soft linen curtains. Keep gliding forward.", "8"),
     ("garden", "chain",
      "Continue gliding forward out onto the terrace and garden: a BBQ zone, fruit trees, "
      "a calm water view, warm sunset light. End settling to a gentle stop.", "8"),
