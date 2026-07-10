@@ -10,12 +10,16 @@ export default function Page() {
   return (
     <main id="top">
       <ScrollWorld />
-      <Houses />
-      <Amenities />
-      <WhyAul />
-      <Manifesto />
-      <Cta />
-      <Footer />
+      {/* Контент секций — в DOM для SEO/доступности; визуально ведёт scroll-world. */}
+      <div className="seo-only">
+        <h1>Посёлок АУЛ — премиум-резиденция в 25 км от Уфы</h1>
+        <Houses />
+        <Amenities />
+        <WhyAul />
+        <Manifesto />
+        <Cta />
+        <Footer />
+      </div>
     </main>
   )
 }

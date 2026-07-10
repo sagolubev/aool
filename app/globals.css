@@ -16,8 +16,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; }
-
 .sec {
   padding: 10vh 6vw;
   max-width: 1100px;
@@ -92,4 +90,17 @@ a { color: inherit; }
 
 @media (max-width: 640px) {
   .facts { columns: 1; }
+}
+
+/* SEO/доступность: контент в DOM, вне визуального потока (scroll-world = страница) */
+.seo-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
