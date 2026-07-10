@@ -98,10 +98,13 @@ SCENES = [
      "revealing the space. Keep gliding slowly forward toward the far terrace doors.", "12"),
     ("garden", "chain",
      "Continue forward: the camera glides out through the open terrace doors, stepping "
-     "OUTSIDE onto a modern outdoor terrace, and reveals a stylish barbecue and grill "
-     "zone with built-in BBQ, lounge seating and a dining set, ornamental grasses, fruit "
-     "trees, a calm water view, warm sunset light. End settling to a gentle stop on the "
-     "terrace.", "12"),
+     "OUTSIDE onto a spacious modern outdoor terrace that is FULLY FURNISHED and lived-in. "
+     "In the foreground a comfortable outdoor lounge set: a large sofa with cushions, two "
+     "lounge armchairs and sunbeds around a low coffee table, a long wooden dining table "
+     "with chairs to the side, a built-in barbecue grill. Near the house glass wall stands "
+     "a round wooden cold-plunge tub (kupel) with water and gentle steam. Potted plants, "
+     "outdoor lamps, ornamental grasses, fruit trees, a calm water view, warm sunset light. "
+     "No separate sauna cabin. End settling on the furnished lounge terrace with the tub.", "12"),
 ]
 
 
