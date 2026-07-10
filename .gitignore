@@ -1,0 +1,16 @@
+# deps / build
+node_modules/
+.next/
+out/
+# Sora assets (heavy, regenerated)
+public/scroll/raw/
+public/scroll/*.mp4
+public/scroll/*.webm
+spike/out/
+spike/final/
+spike/ref/
+spike/.env
+spike/**/*.mp4
+# env
+.env*.local
+spike/__pycache__/
