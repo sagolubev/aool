@@ -27,11 +27,11 @@ def last_frame(mp4: Path, dst: Path):
          "-show_entries", "stream=nb_read_frames", "-of", "csv=p=0", str(mp4)],
         capture_output=True, text=True).stdout.strip()
     n = int(out)
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp4),
-                    "-vf", f"select=eq(n\\,{n-1})", "-frames:v", "1", str(dst)], check=True)
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(dst), "-vf",
+    # один проход: выбрать последний кадр + привести к 1280x720
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp4), "-vf",
+                    f"select=eq(n\\,{n-1}),"
                     "scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720",
-                    str(dst)], check=True)
+                    "-frames:v", "1", str(dst)], check=True)
 
 
 # (id, kind, prompt, seconds)
