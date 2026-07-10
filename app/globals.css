@@ -1,0 +1,95 @@
+:root {
+  --sw-bg: #f5f2ec;
+  --sw-ink: #1f2a22;
+  --sw-ink-soft: #55665c;
+  --sw-accent: #2d4a3e;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--sw-bg);
+  color: var(--sw-ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+.sec {
+  padding: 10vh 6vw;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sec h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin: 0 0 0.5em;
+}
+
+.lead {
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  color: var(--sw-ink-soft);
+  max-width: 60ch;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.card {
+  border: 1px solid #dcd6ca;
+  border-radius: 14px;
+  padding: 24px;
+  background: #fff;
+}
+
+.card h3 { margin: 0 0 0.4em; }
+
+.facts {
+  columns: 2;
+  gap: 2rem;
+  color: var(--sw-ink-soft);
+  line-height: 2;
+}
+
+.manifesto { text-align: center; }
+
+.manifesto blockquote {
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.cta { text-align: center; }
+
+.btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 14px 32px;
+  background: var(--sw-accent);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.foot {
+  padding: 6vh 6vw;
+  color: var(--sw-ink-soft);
+  border-top: 1px solid #dcd6ca;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .facts { columns: 1; }
+}
