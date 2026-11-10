@@ -2,9 +2,8 @@
 node_modules/
 .next/
 out/
-# Sora assets (heavy, regenerated)
+# Sora assets (heavy, regenerated); publish compressed scroll videos
 public/scroll/raw/
-public/scroll/*.mp4
 public/scroll/*.webm
 spike/out/
 spike/final/

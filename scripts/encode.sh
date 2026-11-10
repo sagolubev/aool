@@ -13,7 +13,7 @@ for f in "$raw"/*.mp4; do
   [ -e "$f" ] || continue
   id=$(basename "$f" .mp4)
   ffmpeg -y -loglevel error -i "$f" -an -vf "unsharp=5:5:0.8:5:5:0.0" \
-    -c:v libx264 -preset slow -crf 20 -pix_fmt yuv420p \
+    -c:v libx264 -preset medium -crf 24 -pix_fmt yuv420p \
     -g 8 -keyint_min 8 -sc_threshold 0 -movflags +faststart "$out/$id.mp4"
   ffmpeg -y -loglevel error -i "$out/$id.mp4" -frames:v 1 "$out/$id.webp"
   count=$((count+1))

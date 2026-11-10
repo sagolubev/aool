@@ -20,8 +20,9 @@ Next.js несовместимы с GitHub Pages.
 Workflow `.github/workflows/pages.yml` собирает `out/` и публикует его в ветку
 `deployment`. GitHub Pages обслуживает эту ветку с CNAME `aool.n1o.ru`.
 
-DNS CNAME хранится в `sigiuscom/infra-azure`, файл `dns_zone_n1o.ru.tf`.
+DNS A-записи хранятся в `sigiuscom/infra-azure`, файл `dns_zone_n1o.ru.tf`.
 
 Секреты в Git не добавляйте. Скрипты Sora в `spike/` читают ключи из локальной
-конфигурации и не участвуют в сборке сайта. Сгенерированные видеофайлы в
-`public/scroll/` игнорируются Git; проверки используют доступные постеры.
+конфигурации и не участвуют в сборке сайта. Сжатые MP4 в `public/scroll/`
+включайте в Git: без них GitHub Pages показывает только статичные постеры.
+Исходники в `public/scroll/raw/` остаются локальными.
